@@ -192,51 +192,89 @@
 
 // Exercise 9
 
-var pingServer = _.extend({}, Backbone.Events);
+// var pingServer = _.extend({}, Backbone.Events);
 
-var StudentView = Backbone.View.extend({
-  initialize: function (options) {
-  },
+// var StudentView = Backbone.View.extend({
+//   initialize: function (options) {
+//   },
 
-  ping: function () {
-    pingServer.trigger('ping', this.name);
-  }
-});
+//   ping: function () {
+//     pingServer.trigger('ping', this.name);
+//   }
+// });
 
-var InstructorView = Backbone.View.extend({
-  totalPings: 0,
+// var InstructorView = Backbone.View.extend({
+//   totalPings: 0,
 
-  initialize: function (options) {
-    this.listenTo(pingServer, 'ping', this.recordPop);
-  },
+//   initialize: function (options) {
+//     this.listenTo(pingServer, 'ping', this.recordPop);
+//   },
 
-  recordPop: function (name) {
-    this.totalPings += 1;
-    console.log("ping!");
-  }
-});
+//   recordPop: function (name) {
+//     this.totalPings += 1;
+//     console.log("ping!");
+//   }
+// });
 
-var alice = new StudentView({ name: 'Alice' });
-var bob = new StudentView({ name: 'Bob' });
-var instructor = new InstructorView({ name: 'Dr. Professor' });
+// var alice = new StudentView({ name: 'Alice' });
+// var bob = new StudentView({ name: 'Bob' });
+// var instructor = new InstructorView({ name: 'Dr. Professor' });
 
-alice.ping();
-alice.ping();
-console.log('Instructor should have 2 pings:', instructor.totalPings);
-bob.ping();
-bob.ping();
-bob.ping();
-bob.ping();
-bob.ping();
-console.log('Instructor should have 7 pings:', instructor.totalPings);
+// alice.ping();
+// alice.ping();
+// console.log('Instructor should have 2 pings:', instructor.totalPings);
+// bob.ping();
+// bob.ping();
+// bob.ping();
+// bob.ping();
+// bob.ping();
+// console.log('Instructor should have 7 pings:', instructor.totalPings);
+
+
+
+// Indi Exercise 1
 
 // var DiscountView = Backbone.View.extend({
+//   initialize: function (options) {
+//     this.price = options.price;
+//   },
+
 //   getDiscountedPrice: function () {
-//     return this.price;
+//     return this.price / 2;
 //   }
 // });
 
 // var discount = new DiscountView({
-//   originalPrice: 50
+//   price: 50
 // });
+
 // console.log('Discount should be half:', discount.getDiscountedPrice());
+
+// Indi Exercise 2
+
+var productTemplateHtml = $('#templates .product').html();
+var productTemplate = _.template(productTemplateHtml);
+
+var ProductView = Backbone.View.extend({
+  events: {
+    'click h3': 'onTitleClick'
+  },
+  initialize: function (options) {
+    this.name = options.name;
+  },
+
+  render: function () {
+    var productTemplateHtml = productTemplate();
+    $(this.el).html(productTemplateHtml);
+  },
+
+  onTitleClick: function () {
+    console.log('You clicked a title!');
+  }
+});
+
+var product = new ProductView({
+  name: 'Dry Erase Marker'
+});
+
+$('body').append( product.render('.nameclass').el);
